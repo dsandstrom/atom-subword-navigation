@@ -1,0 +1,14 @@
+{
+  "name": "subword-navigation",
+  "main": "./lib/subword-navigation",
+  "version": "0.0.0",
+  "description": "A short description of your package",
+  "activationEvents": [""],
+  "repository": "https://github.com/atom/subword-navigation",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+  }
+}
