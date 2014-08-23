@@ -1,69 +1,58 @@
-module.exports =
+_ = require 'underscore-plus'
 
-  subwordRegex: (cursor) ->
-    cursor.wordRegExp(includeNonWordCharacters: true)
+module.exports =
 
   activate: (state) ->
     @editor = atom.workspace.getActiveEditor()
 
     atom.workspaceView.command "subword-navigation:move-right", =>
-      @moveRight()
+      @moveToNextSubWordBoundary()
     atom.workspaceView.command "subword-navigation:move-left", =>
-      @moveLeft()
+      @moveToPreviousSubWordBoundary()
     atom.workspaceView.command "subword-navigation:select-right", =>
-      @selectRight()
+      @selectToNextSubWordBoundary()
     atom.workspaceView.command "subword-navigation:select-left", =>
-      @selectLeft()
+      @selectToPreviousSubWordBoundary()
 
-  deactivate: ->
-
-  moveRight: ->
+  moveToNextSubWordBoundary: (cursor) ->
     cursor = @editor.getCursor()
-    @moveToNextSubWordBoundary(cursor, @subwordRegex(cursor))
-
-  moveLeft: ->
-    cursor = @editor.getCursor()
-    @moveToPreviousSubWordBoundary(cursor, @subwordRegex(cursor))
-
-  selectRight: ->
-    cursor = @editor.getCursor()
-    @selectToNextSubWordBoundary(cursor, @subwordRegex(cursor))
-
-  selectLeft: ->
-    cursor = @editor.getCursor()
-    @selectToPreviousSubWordBoundary(cursor, @subwordRegex(cursor))
-
-  moveToNextSubWordBoundary: (cursor, regex) ->
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(regex)
+    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
       cursor.setBufferPosition(position)
 
-  moveToPreviousSubWordBoundary: (cursor, regex) ->
-    if position = cursor.getPreviousWordBoundaryBufferPosition(regex)
+  moveToPreviousSubWordBoundary: (cursor) ->
+    cursor = @editor.getCursor()
+    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
       cursor.setBufferPosition(position)
 
-  selectToNextSubWordBoundary: (cursor, regex) ->
+  selectToNextSubWordBoundary: (cursor) ->
+    cursor = @editor.getCursor()
     currentPosition = cursor.getBufferPosition()
 
     return unless currentPosition
 
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(regex)
+    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
       @editor.getSelection().modifySelection ->
         cursor.setBufferPosition(position)
 
-  selectToPreviousSubWordBoundary: (cursor, regex) ->
+  selectToPreviousSubWordBoundary: (cursor) ->
+    cursor = @editor.getCursor()
     currentPosition = cursor.getBufferPosition()
 
     return unless currentPosition
 
-    if position = cursor.getPreviousWordBoundaryBufferPosition(regex)
+    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
       @editor.getSelection().modifySelection ->
         cursor.setBufferPosition(position)
 
-  # subwordRegExp: ({includeNonWordCharacters}={})->
-  #   includeNonWordCharacters ?= true
-  #   nonWordCharacters = atom.config.get('editor.nonWordCharacters')
-  #   segments = ["^[\t ]*$"]
-  #   segments.push("[^\\s#{_.escapeRegExp(nonWordCharacters)}]+")
-  #   if includeNonWordCharacters
-  #     segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
-  #   new RegExp(segments.join("|"), "g")
+  subwordRegExp: ({includeNonWordCharacters}={}) ->
+    includeNonWordCharacters ?= true
+    nonWordCharacters = atom.config.get('editor.nonWordCharacters')
+    # segments = ["^[\t ]*$"]
+    segments = []
+    segments.push("[A-Z]")
+    segments.push("\\s")
+    segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
+    new RegExp(segments.join("|"), "g")
+
+  cursorOptions: ->
+    {wordRegex: @subwordRegExp()}

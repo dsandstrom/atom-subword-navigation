@@ -2,15 +2,16 @@
   "name": "subword-navigation",
   "main": "./lib/subword-navigation",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Navigate camelCase and snake_case words",
   "activationEvents": [""],
-  "repository": "https://github.com/atom/subword-navigation",
+  "repository": "https://github.com/dsandstrom/atom-subword-navigation",
   "license": "MIT",
   "engines": {
     "atom": ">0.50.0"
   },
   "dependencies": {
     "fs-plus": "2.x",
-    "temp": "~0.6.0"
+    "temp": "~0.6.0",
+    "underscore-plus": "1.x"
   }
 }
