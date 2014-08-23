@@ -1,5 +1,4 @@
 '.editor':
-  # Word Jumper
   'alt-right': 'subword-navigation:move-right'
   'alt-left': 'subword-navigation:move-left'
   'alt-shift-right': 'subword-navigation:select-right'
