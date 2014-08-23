@@ -43,17 +43,21 @@ module.exports =
 
   selectToNextSubWordBoundary: (cursor, regex) ->
     currentPosition = cursor.getBufferPosition()
+
     return unless currentPosition
 
-    if nextPosition = cursor.getMoveNextWordBoundaryBufferPosition(regex)
-      @editor.addSelectionForBufferRange([currentPosition, nextPosition])
+    if position = cursor.getMoveNextWordBoundaryBufferPosition(regex)
+      @editor.getSelection().modifySelection ->
+        cursor.setBufferPosition(position)
 
   selectToPreviousSubWordBoundary: (cursor, regex) ->
     currentPosition = cursor.getBufferPosition()
+
     return unless currentPosition
 
-    if nextPosition = cursor.getPreviousWordBoundaryBufferPosition(regex)
-      @editor.addSelectionForBufferRange([currentPosition, nextPosition], reversed: false)
+    if position = cursor.getPreviousWordBoundaryBufferPosition(regex)
+      @editor.getSelection().modifySelection ->
+        cursor.setBufferPosition(position)
 
   # subwordRegExp: ({includeNonWordCharacters}={})->
   #   includeNonWordCharacters ?= true
