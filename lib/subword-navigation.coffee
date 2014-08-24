@@ -13,6 +13,7 @@ class SubwordNavigation
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     # remove characters that we want to skip over
     nonWordCharacters = nonWordCharacters.replace(/[\-\=\>\@]/g, '')
+
     segments = ["^[\t ]*$"]
     segments.push("[a-z]+")
     segments.push("[A-Z][a-z]+")
@@ -32,7 +33,6 @@ class SubwordNavigation
 
   moveToPreviousSubwordBoundary: ->
     for cursor in @editor.getCursors()
-      console.log cursor.getBufferPosition()
       if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
         cursor.setBufferPosition(position)
 
