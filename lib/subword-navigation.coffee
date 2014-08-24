@@ -49,9 +49,10 @@ module.exports =
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     # segments = ["^[\t ]*$"]
     segments = []
-    segments.push("[A-Z]")
-    segments.push("\\s")
-    segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
+    segments.push("[a-z]+")
+    segments.push("[A-Z][a-z]+")
+    # segments.push("\\s")
+    # segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
     new RegExp(segments.join("|"), "g")
 
   cursorOptions: ->
