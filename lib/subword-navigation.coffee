@@ -6,7 +6,6 @@ class SubwordNavigation
 
   constructor: ->
     @editor = atom.workspace.getActiveEditor()
-    # @cursor = @editor.getCursor()
 
   destroy: ->
 
