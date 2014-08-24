@@ -26,7 +26,7 @@ describe 'SubwordNavigation', ->
     waitsForPromise ->
       atom.packages.activatePackage('subword-navigation')
 
-  describe '::moveRight', ->
+  describe 'move-right', ->
     it 'does not change an empty file', ->
       atom.workspaceView.trigger 'subword-navigation:move-right'
       expect(editor.getText()).toBe ''
@@ -95,34 +95,52 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 8
 
-    describe "on 'left, =>'", ->
+    describe "on ', =>'", ->
       it "when cursor is at the beginning", ->
-        editor.insertText("left, =>\n")
+        editor.insertText(", =>\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at end of a comma", ->
+        editor.insertText(", =>\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is at new line", ->
+        editor.insertText(", =>\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...4]
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 1
+        expect(cursorPosition.column).toBe 0
+
+    describe "on '  @var'", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("  @var\n")
         editor.moveCursorUp 1
         atom.workspaceView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
 
-      it "when cursor is at end of first subword", ->
-        editor.insertText("left, =>\n")
+    describe "on '()'", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("()\n")
         editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...3]
         atom.workspaceView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 11
+        expect(cursorPosition.column).toBe 2
 
-      it "when cursor is at end of second subword", ->
-        editor.insertText("left, =>\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...11]
-        atom.workspaceView.trigger 'subword-navigation:move-right'
-        cursorPosition = editor.getCursorBufferPosition()
-        expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 15
-
-  describe '::moveLeft', ->
+  describe 'move-left', ->
     it 'does not change an empty file', ->
       atom.workspaceView.trigger 'subword-navigation:move-left'
       expect(editor.getText()).toBe ''
@@ -137,7 +155,7 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
 
-  describe '::selectRight', ->
+  describe 'select-right', ->
     it 'does not change an empty file', ->
       atom.workspaceView.trigger 'subword-navigation:select-right'
       expect(editor.getText()).toBe ''
@@ -159,7 +177,7 @@ describe 'SubwordNavigation', ->
         atom.workspaceView.trigger 'subword-navigation:select-right'
         expect(editor.getSelection().getText()).toBe 'ord'
 
-  describe '::selectLeft', ->
+  describe 'select-left', ->
     it 'does not change an empty file', ->
       atom.workspaceView.trigger 'subword-navigation:select-left'
       expect(editor.getText()).toBe ''

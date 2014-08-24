@@ -1,59 +1,55 @@
 _ = require 'underscore-plus'
 
 module.exports =
+class SubwordNavigation
+  editor: null
 
-  activate: (state) ->
+  constructor: ->
     @editor = atom.workspace.getActiveEditor()
+    # @cursor = @editor.getCursor()
 
-    atom.workspaceView.command "subword-navigation:move-right", =>
-      @moveToNextSubWordBoundary()
-    atom.workspaceView.command "subword-navigation:move-left", =>
-      @moveToPreviousSubWordBoundary()
-    atom.workspaceView.command "subword-navigation:select-right", =>
-      @selectToNextSubWordBoundary()
-    atom.workspaceView.command "subword-navigation:select-left", =>
-      @selectToPreviousSubWordBoundary()
+  destroy: ->
 
-  moveToNextSubWordBoundary: (cursor) ->
-    cursor = @editor.getCursor()
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
-      cursor.setBufferPosition(position)
-
-  moveToPreviousSubWordBoundary: (cursor) ->
-    cursor = @editor.getCursor()
-    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
-      cursor.setBufferPosition(position)
-
-  selectToNextSubWordBoundary: (cursor) ->
-    cursor = @editor.getCursor()
-    currentPosition = cursor.getBufferPosition()
-
-    return unless currentPosition
-
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
-      @editor.getSelection().modifySelection ->
-        cursor.setBufferPosition(position)
-
-  selectToPreviousSubWordBoundary: (cursor) ->
-    cursor = @editor.getCursor()
-    currentPosition = cursor.getBufferPosition()
-
-    return unless currentPosition
-
-    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
-      @editor.getSelection().modifySelection ->
-        cursor.setBufferPosition(position)
-
-  subwordRegExp: ({includeNonWordCharacters}={}) ->
-    includeNonWordCharacters ?= true
+  subwordRegExp: ->
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
-    # segments = ["^[\t ]*$"]
-    segments = []
+    # remove characters that we want to skip over
+    nonWordCharacters = nonWordCharacters.replace(/[\-\=\>\@]/g, '')
+    segments = ["^[\t ]*$"]
     segments.push("[a-z]+")
     segments.push("[A-Z][a-z]+")
-    # segments.push("\\s")
-    # segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
+    segments.push("\\n")
+    segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
     new RegExp(segments.join("|"), "g")
 
   cursorOptions: ->
     {wordRegex: @subwordRegExp()}
+
+  moveToNextSubwordBoundary: ->
+    cursor = @editor.getCursor()
+    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+      cursor.setBufferPosition(position)
+
+  moveToPreviousSubwordBoundary: ->
+    cursor = @editor.getCursor()
+    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
+      cursor.setBufferPosition(position)
+
+  selectToNextSubwordBoundary: ->
+    cursor = @editor.getCursor()
+    currentPosition = cursor.getBufferPosition()
+
+    return unless currentPosition
+
+    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+      @editor.getSelection().modifySelection ->
+        cursor.setBufferPosition(position)
+
+  selectToPreviousSubwordBoundary: ->
+    cursor = @editor.getCursor()
+    currentPosition = cursor.getBufferPosition()
+
+    return unless currentPosition
+
+    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
+      @editor.getSelection().modifySelection ->
+        cursor.setBufferPosition(position)
