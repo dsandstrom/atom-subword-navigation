@@ -37,21 +37,21 @@ class SubwordNavigation
         cursor.setBufferPosition(position)
 
   selectToNextSubwordBoundary: ->
-    cursor = @editor.getCursor()
-    currentPosition = cursor.getBufferPosition()
+    for cursor in @editor.getCursors()
+      currentPosition = cursor.getBufferPosition()
 
-    return unless currentPosition
+      next unless currentPosition
 
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
-      @editor.getSelection().modifySelection ->
-        cursor.setBufferPosition(position)
+      if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+        @editor.getSelection().modifySelection ->
+          cursor.setBufferPosition(position)
 
   selectToPreviousSubwordBoundary: ->
-    cursor = @editor.getCursor()
-    currentPosition = cursor.getBufferPosition()
+    for cursor in @editor.getCursors()
+      currentPosition = cursor.getBufferPosition()
 
-    return unless currentPosition
+      next unless currentPosition
 
-    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
-      @editor.getSelection().modifySelection ->
-        cursor.setBufferPosition(position)
+      if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
+        @editor.getSelection().modifySelection ->
+          cursor.setBufferPosition(position)
