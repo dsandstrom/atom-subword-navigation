@@ -17,6 +17,8 @@ class SubwordNavigation
     segments.push("[a-z]+")
     segments.push("[A-Z][a-z]+")
     segments.push("\\n")
+    segments.push("^")
+    # segments.push("^[\t ]*")
     segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
     new RegExp(segments.join("|"), "g")
 
@@ -24,14 +26,15 @@ class SubwordNavigation
     {wordRegex: @subwordRegExp()}
 
   moveToNextSubwordBoundary: ->
-    cursor = @editor.getCursor()
-    if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
-      cursor.setBufferPosition(position)
+    for cursor in @editor.getCursors()
+      if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+        cursor.setBufferPosition(position)
 
   moveToPreviousSubwordBoundary: ->
-    cursor = @editor.getCursor()
-    if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
-      cursor.setBufferPosition(position)
+    for cursor in @editor.getCursors()
+      console.log cursor.getBufferPosition()
+      if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions())
+        cursor.setBufferPosition(position)
 
   selectToNextSubwordBoundary: ->
     cursor = @editor.getCursor()

@@ -1,15 +1,13 @@
-# See https://atom.io/docs/latest/creating-a-package#menus for more details
-'context-menu':
-  '.overlayer':
-      'Enable subword-navigation': 'subword-navigation:toggle'
-
 'menu': [
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'subword-navigation'
+      'label': 'Subword Navigation'
       'submenu': [
-        { 'label': 'Toggle', 'command': 'subword-navigation:toggle' }
+        { 'label': 'Move Right', 'command': 'subword-navigation:move-right' }
+        { 'label': 'Move Left', 'command': 'subword-navigation:move-left' }
+        { 'label': 'Select Right', 'command': 'subword-navigation:select-right' }
+        { 'label': 'Select Left', 'command': 'subword-navigation:select-left' }
       ]
     ]
   }
