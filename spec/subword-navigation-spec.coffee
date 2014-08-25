@@ -150,18 +150,6 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
 
-    describe "when 2 cursors", ->
-      it "when cursor is at the beginning", ->
-        editor.insertText("cursorOptions\ncursorOptions\n")
-        editor.moveCursorUp 1
-        editor.addCursorAtBufferPosition([0,0])
-        atom.workspaceView.trigger 'subword-navigation:move-right'
-        cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
-        expect(cursorPositions[0].row).toBe 1
-        expect(cursorPositions[0].column).toBe 6
-        expect(cursorPositions[1].row).toBe 0
-        expect(cursorPositions[1].column).toBe 6
-
     describe "on ' - b'", ->
       it "when cursor is at the beginning", ->
         editor.insertText(" - b\n")
@@ -179,6 +167,18 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
+
+    describe "when 2 cursors", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("cursorOptions\ncursorOptions\n")
+        editor.moveCursorUp 1
+        editor.addCursorAtBufferPosition([0,0])
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
+        expect(cursorPositions[0].row).toBe 1
+        expect(cursorPositions[0].column).toBe 6
+        expect(cursorPositions[1].row).toBe 0
+        expect(cursorPositions[1].column).toBe 6
 
   describe 'move-left', ->
     it 'does not change an empty file', ->
@@ -320,6 +320,7 @@ describe 'SubwordNavigation', ->
 
     describe "on ' ()'", ->
       it "when cursor is at the end", ->
+        # TODO: cursor probably should be on 0,1
         editor.insertText(" ()\n")
         editor.moveCursorUp 1
         editor.moveCursorToEndOfLine()
@@ -336,6 +337,25 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
+
+    describe "on 'a - '", ->
+      it "when cursor is at the end", ->
+        editor.insertText("a - \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at beginning of -", ->
+        editor.insertText("a - \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...2]
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
 
     describe "when 2 cursors", ->
       it "when cursor is at the end", ->
