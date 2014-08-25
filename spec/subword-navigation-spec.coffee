@@ -96,7 +96,7 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.column).toBe 8
 
     describe "on ', =>'", ->
-      fit "when cursor is at the beginning", ->
+      it "when cursor is at the beginning", ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
         atom.workspaceView.trigger 'subword-navigation:move-right'
@@ -271,7 +271,7 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 0
 
-      fit "when cursor is at the beginning of the word", ->
+      it "when cursor is at the beginning of the word", ->
         editor.insertText("  @var\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
@@ -324,6 +324,18 @@ describe 'SubwordNavigation', ->
         editor.moveCursorRight() for n in [0...2]
         atom.workspaceView.trigger 'subword-navigation:select-right'
         expect(editor.getSelection().getText()).toBe 'ord'
+
+    describe "when 2 cursors", ->
+      fit "when cursor is at the beginning", ->
+        editor.insertText("cursorOptions\ncursorOptions\n")
+        editor.moveCursorUp 1
+        editor.addCursorAtBufferPosition([0,0])
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
+        expect(cursorPositions[0].row).toBe 1
+        expect(cursorPositions[0].column).toBe 6
+        expect(cursorPositions[1].row).toBe 0
+        expect(cursorPositions[1].column).toBe 6
 
   describe 'select-left', ->
     it 'does not change an empty file', ->
