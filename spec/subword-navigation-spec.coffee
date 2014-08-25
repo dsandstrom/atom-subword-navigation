@@ -279,11 +279,12 @@ describe 'SubwordNavigation', ->
         atom.workspaceView.trigger 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 1
+        expect(cursorPosition.column).toBe 2
 
-      it "when cursor is at end of a comma", ->
+      it "when cursor is at beginning of =", ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
+        editor.moveCursorRight()
         editor.moveCursorRight()
         atom.workspaceView.trigger 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
@@ -300,34 +301,61 @@ describe 'SubwordNavigation', ->
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
 
-      it "when cursor is at the beginning of the word", ->
-        editor.insertText("\n  @var\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...2]
-        atom.workspaceView.trigger 'subword-navigation:move-left'
-        cursorPosition = editor.getCursorBufferPosition()
-        expect(cursorPosition.row).toBe 1
-        expect(cursorPosition.column).toBe 0
-
-      it "when moving to the first line of file", ->
+      it "when cursor is at beginning of word", ->
         editor.insertText("  @var\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
         atom.workspaceView.trigger 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at beginning of @", ->
+        editor.insertText("  @var\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...1]
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 0
+
+    describe "on '\n  @var'", ->
+      it "when cursor is at the end", ->
+        editor.insertText("\n  @var\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 1
+        expect(cursorPosition.column).toBe 3
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText("\n  @var\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...2]
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 1
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at beginning of @", ->
+        editor.insertText("\n  @var\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...1]
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 0
 
     describe "on ' ()'", ->
       it "when cursor is at the end", ->
-        # TODO: cursor probably should be on 0,1
         editor.insertText(" ()\n")
         editor.moveCursorUp 1
         editor.moveCursorToEndOfLine()
         atom.workspaceView.trigger 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 0
+        expect(cursorPosition.column).toBe 1
 
       it "when first characters of line", ->
         editor.insertText("()\n")

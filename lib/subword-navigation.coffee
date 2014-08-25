@@ -1,6 +1,9 @@
 _ = require 'underscore-plus'
 {Point} = require 'atom'
 
+# XXX: Doesn't work well when going left on first line
+# XXX: Select left broken
+
 module.exports =
 class SubwordNavigation
   constructor: ->
@@ -36,13 +39,10 @@ class SubwordNavigation
 
   subwordRegExp: (options={}) ->
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
-    # build regex
     segments = ["^[\t ]*$"]
     segments.push("[a-z]+")
     segments.push("[A-Z][a-z]+")
     segments.push("\\n")
-    # segments.push("^")
-    console.log options.backwards
     if options.backwards
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
     else
