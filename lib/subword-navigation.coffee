@@ -47,7 +47,7 @@ class SubwordNavigation
     # segments.push("\\r")
     segments.push("\\n")
     # segments.push("^")
-    segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+")
+    segments.push("\\s*[#{_.escapeRegExp(nonWordCharacters)}]+")
     # segments.push("[\=\-][^\>]+")
     # segments.push("[^\=\-][\>]+")
     new RegExp(segments.join("|"), "g")
