@@ -160,7 +160,6 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        console.log editor.getCursor().getBufferPosition()
         atom.workspaceView.trigger 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
