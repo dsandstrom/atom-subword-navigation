@@ -1,9 +1,6 @@
 _ = require 'underscore-plus'
 {Point} = require 'atom'
 
-# XXX: Doesn't work well when going left on first line
-# XXX: Select left broken
-
 module.exports =
 class SubwordNavigation
   constructor: ->
@@ -19,6 +16,9 @@ class SubwordNavigation
   moveToPreviousSubwordBoundary: ->
     for cursor in @cursors()
       if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
+        # hack to fix going left on first line
+        if position.isEqual(cursor.getBufferPosition())
+          position = new Point(position.row, 0)
         cursor.setBufferPosition(position)
 
   selectToNextSubwordBoundary: ->
@@ -34,6 +34,9 @@ class SubwordNavigation
       cursor = selection.cursor
       position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
       if cursor and position
+        # hack to fix going left on first line
+        if position.isEqual(cursor.getBufferPosition())
+          position = new Point(position.row, 0)
         selection.modifySelection ->
           cursor.setBufferPosition(position)
 
