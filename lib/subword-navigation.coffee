@@ -16,7 +16,7 @@ class SubwordNavigation
   moveToPreviousSubwordBoundary: ->
     for cursor in @cursors()
       if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
-        # hack to fix going left on first line
+        # FIXME: hack to fix going left on first line
         if position.isEqual(cursor.getBufferPosition())
           position = new Point(position.row, 0)
         cursor.setBufferPosition(position)
@@ -34,7 +34,7 @@ class SubwordNavigation
       cursor = selection.cursor
       position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
       if cursor and position
-        # hack to fix going left on first line
+        # FIXME: hack to fix going left on first line
         if position.isEqual(cursor.getBufferPosition())
           position = new Point(position.row, 0)
         selection.modifySelection ->
@@ -43,8 +43,7 @@ class SubwordNavigation
   subwordRegExp: (options={}) ->
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     segments = ["^[\t ]*$"]
-    segments.push("[a-z]+")
-    segments.push("[A-Z][a-z]+")
+    segments.push("[A-Z]?[a-z]+")
     segments.push("\\n")
     if options.backwards
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
