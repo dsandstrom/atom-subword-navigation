@@ -352,3 +352,104 @@ describe 'SubwordNavigation', ->
         expect(selectionRanges[1].start.column).toBe 0
         expect(selectionRanges[1].end.row).toBe 0
         expect(selectionRanges[1].end.column).toBe 6
+
+    describe "on 'ALPHA", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at the beginning", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 0
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 1
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 1
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 6
+
+    describe "on 'AAADF ", ->
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 1
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 6
+
+    describe "on 'ALPhA", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at the beginning", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 0
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 2
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-right'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 2
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 4

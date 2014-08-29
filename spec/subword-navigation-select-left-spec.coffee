@@ -491,3 +491,130 @@ describe 'SubwordNavigation', ->
         expect(selectionRanges[1].start.column).toBe 6
         expect(selectionRanges[1].end.row).toBe 0
         expect(selectionRanges[1].end.column).toBe 13
+
+    describe "on 'ALPHA", ->
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 1
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 6
+
+    describe "on 'AAADF ", ->
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 6
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 7
+
+      it "when cursor is at end of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        editor.moveCursorLeft()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at end of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        editor.moveCursorLeft()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 1
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 6
+
+    describe "on 'ALPhA", ->
+      it "when cursor is at the end", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is at the end", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 4
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 5
+
+      it "when cursor is at end of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...4]
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at end of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...4]
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 2
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 4
+
+      it "when cursor is at beginning of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 0
+
+      it "when cursor is at beginning of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:select-left'
+        selectionRange = editor.getSelection().getBufferRange()
+        expect(selectionRange.start.row).toBe 0
+        expect(selectionRange.start.column).toBe 0
+        expect(selectionRange.end.row).toBe 0
+        expect(selectionRange.end.column).toBe 2

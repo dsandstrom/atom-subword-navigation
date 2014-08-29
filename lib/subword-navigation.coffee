@@ -44,6 +44,7 @@ class SubwordNavigation
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     segments = ["^[\t ]*$"]
     segments.push("[A-Z]?[a-z]+")
+    segments.push("[A-Z]+(?![a-z])")
     if options.backwards
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
     else

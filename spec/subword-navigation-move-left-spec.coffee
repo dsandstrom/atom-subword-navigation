@@ -243,3 +243,61 @@ describe 'SubwordNavigation', ->
         expect(cursorPositions[0].column).toBe 6
         expect(cursorPositions[1].row).toBe 0
         expect(cursorPositions[1].column).toBe 6
+        describe "on 'ALPHA", ->
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+    describe "on 'AAADF ", ->
+      it "when cursor is at the end", ->
+        editor.insertText(" ALPHA \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+      it "when cursor is at end of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        editor.moveCursorLeft()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+    describe "on 'ALPhA", ->
+      it "when cursor is at the end", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is at end of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...4]
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at beginning of subword", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 0

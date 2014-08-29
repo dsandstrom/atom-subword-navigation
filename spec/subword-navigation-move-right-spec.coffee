@@ -177,3 +177,50 @@ describe 'SubwordNavigation', ->
         expect(cursorPositions[0].column).toBe 6
         expect(cursorPositions[1].row).toBe 0
         expect(cursorPositions[1].column).toBe 6
+
+    describe "on 'ALPHA", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" ALPHA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+    describe "on 'AAADF ", ->
+      it "when cursor is at beginning of word", ->
+        editor.insertText(" AAADF \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 6
+
+    describe "on 'ALPhA", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 2
+
+      it "when cursor is at beginning of word", ->
+        editor.insertText("ALPhA\n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight()
+        editor.moveCursorRight()
+        atom.workspaceView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
