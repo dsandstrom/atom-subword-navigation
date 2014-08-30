@@ -1,8 +1,6 @@
 SubwordNavigation = require './subword-navigation'
 
 module.exports =
-  # subwordNavigation: null
-
   activate: (state) ->
     atom.workspaceView.eachEditorView (editorView) ->
       subwordNavigation = new SubwordNavigation(editorView.editor)
@@ -17,5 +15,3 @@ module.exports =
         subwordNavigation.selectToPreviousSubwordBoundary()
 
   deactivate: ->
-    # @subwordNavigation?.destroy()
-    # @subwordNavigation = null
