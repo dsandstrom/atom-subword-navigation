@@ -1,34 +1,21 @@
 SubwordNavigation = require './subword-navigation'
 
 module.exports =
-  subwordNavigation: null
+  # subwordNavigation: null
 
   activate: (state) ->
-    atom.workspaceView.command "subword-navigation:move-right", =>
-      @moveRight()
-    atom.workspaceView.command "subword-navigation:move-left", =>
-      @moveLeft()
-    atom.workspaceView.command "subword-navigation:select-right", =>
-      @selectRight()
-    atom.workspaceView.command "subword-navigation:select-left", =>
-      @selectLeft()
+    atom.workspaceView.eachEditorView (editorView) ->
+      subwordNavigation = new SubwordNavigation(editorView.editor)
+
+      editorView.command "subword-navigation:move-right", ->
+        subwordNavigation.moveToNextSubwordBoundary()
+      editorView.command "subword-navigation:move-left", ->
+        subwordNavigation.moveToPreviousSubwordBoundary()
+      editorView.command "subword-navigation:select-right", ->
+        subwordNavigation.selectToNextSubwordBoundary()
+      editorView.command "subword-navigation:select-left", ->
+        subwordNavigation.selectToPreviousSubwordBoundary()
 
   deactivate: ->
-    @subwordNavigation?.destroy()
-    @subwordNavigation = null
-
-  moveRight: ->
-    @subwordNavigation = new SubwordNavigation
-    @subwordNavigation.moveToNextSubwordBoundary()
-
-  moveLeft: ->
-    @subwordNavigation = new SubwordNavigation
-    @subwordNavigation.moveToPreviousSubwordBoundary()
-
-  selectRight: ->
-    @subwordNavigation = new SubwordNavigation
-    @subwordNavigation.selectToNextSubwordBoundary()
-
-  selectLeft: ->
-    @subwordNavigation = new SubwordNavigation
-    @subwordNavigation.selectToPreviousSubwordBoundary()
+    # @subwordNavigation?.destroy()
+    # @subwordNavigation = null

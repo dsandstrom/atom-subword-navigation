@@ -6,29 +6,29 @@ temp = require 'temp'
 # TODO: add tests for folded text above
 
 describe 'SubwordNavigation', ->
-  [editor, buffer] = []
+  [editorView, editor, promise] = []
 
   beforeEach ->
+    atom.workspaceView = new WorkspaceView()
     directory = temp.mkdirSync()
     atom.project.setPath(directory)
-    atom.workspaceView = new WorkspaceView()
-    atom.workspace = atom.workspaceView.model
     filePath = path.join(directory, 'example.rb')
 
     waitsForPromise ->
-      atom.workspace.open(filePath).then (e) ->
-        editor = e
-        buffer = editor.getBuffer()
+      atom.workspace.open(filePath)
+
+    runs ->
+      atom.workspaceView.attachToDom()
+      editorView = atom.workspaceView.getActiveView()
+      editor = editorView.getEditor()
+      promise = atom.packages.activatePackage('subword-navigation')
 
     waitsForPromise ->
-      atom.packages.activatePackage('language-ruby')
-
-    waitsForPromise ->
-      atom.packages.activatePackage('subword-navigation')
+      promise
 
   describe 'select-right', ->
     it 'does not change an empty file', ->
-      atom.workspaceView.trigger 'subword-navigation:select-right'
+      editorView.trigger 'subword-navigation:select-right'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 0
       expect(cursorPosition.column).toBe 0
@@ -36,7 +36,7 @@ describe 'SubwordNavigation', ->
     it "on blank line, before '\n'", ->
       editor.insertText("\n")
       editor.moveCursorUp 1
-      atom.workspaceView.trigger 'subword-navigation:select-right'
+      editorView.trigger 'subword-navigation:select-right'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 1
       expect(cursorPosition.column).toBe 0
@@ -44,7 +44,7 @@ describe 'SubwordNavigation', ->
     it "on blank line, before '\n'", ->
       editor.insertText("\n")
       editor.moveCursorUp 1
-      atom.workspaceView.trigger 'subword-navigation:select-right'
+      editorView.trigger 'subword-navigation:select-right'
       selectionRange = editor.getSelection().getBufferRange()
       expect(selectionRange.start.row).toBe 0
       expect(selectionRange.start.column).toBe 0
@@ -56,7 +56,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(".word.\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 5
@@ -65,7 +65,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(".word.\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -76,7 +76,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
@@ -84,7 +84,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -95,7 +95,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...3]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 11
@@ -104,7 +104,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...3]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 3
@@ -115,7 +115,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...11]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 15
@@ -124,7 +124,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("getPreviousWord \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...11]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 11
@@ -135,7 +135,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
@@ -143,7 +143,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -154,7 +154,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...3]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -163,7 +163,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...3]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 3
@@ -174,7 +174,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...4]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 8
@@ -183,7 +183,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("sub_word \n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...4]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -194,7 +194,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -202,7 +202,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -213,7 +213,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -222,7 +222,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -233,7 +233,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...4]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 0
@@ -242,7 +242,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...4]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -253,7 +253,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("  @var\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
@@ -261,7 +261,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("  @var\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -272,7 +272,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("()\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -280,7 +280,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("()\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -291,7 +291,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(" - b\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -299,7 +299,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(" - b\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -310,7 +310,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" - b\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
@@ -319,7 +319,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" - b\n")
         editor.moveCursorUp 1
         editor.moveCursorRight() for n in [0...2]
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -331,7 +331,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("cursorOptions\ncursorOptions\n")
         editor.moveCursorUp 1
         editor.addCursorAtBufferPosition([0,0])
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
         expect(cursorPositions[0].row).toBe 1
         expect(cursorPositions[0].column).toBe 6
@@ -342,7 +342,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("cursorOptions\ncursorOptions\n")
         editor.moveCursorUp 1
         editor.addCursorAtBufferPosition([0,0])
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRanges = editor.getSelections().map (s) -> s.getBufferRange()
         expect(selectionRanges[0].start.row).toBe 1
         expect(selectionRanges[0].start.column).toBe 0
@@ -357,7 +357,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(" ALPHA\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -365,7 +365,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText(" ALPHA\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -376,7 +376,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA\n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 6
@@ -385,7 +385,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA\n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -397,7 +397,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" AAADF \n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 6
@@ -406,7 +406,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" AAADF \n")
         editor.moveCursorUp 1
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -417,7 +417,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("ALPhA\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -425,7 +425,7 @@ describe 'SubwordNavigation', ->
       it "when cursor is at the beginning", ->
         editor.insertText("ALPhA\n")
         editor.moveCursorUp 1
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -437,7 +437,7 @@ describe 'SubwordNavigation', ->
         editor.moveCursorUp 1
         editor.moveCursorRight()
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -447,7 +447,7 @@ describe 'SubwordNavigation', ->
         editor.moveCursorUp 1
         editor.moveCursorRight()
         editor.moveCursorRight()
-        atom.workspaceView.trigger 'subword-navigation:select-right'
+        editorView.trigger 'subword-navigation:select-right'
         selectionRange = editor.getSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2

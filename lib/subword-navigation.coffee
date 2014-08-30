@@ -3,8 +3,7 @@ _ = require 'underscore-plus'
 
 module.exports =
 class SubwordNavigation
-  constructor: ->
-    @editor = atom.workspace.getActiveEditor()
+  constructor: (@editor) ->
 
   destroy: ->
 
@@ -52,10 +51,16 @@ class SubwordNavigation
     new RegExp(segments.join("|"), "g")
 
   cursors: ->
-    @editor.getCursors()
+    if @editor
+      @editor.getCursors()
+    else
+      []
 
   selections: ->
-    @editor.getSelections()
+    if @editor
+      @editor.getSelections()
+    else
+      []
 
   cursorOptions: (options={}) ->
     {wordRegex: @subwordRegExp(options)}
