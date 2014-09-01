@@ -1,3 +1,6 @@
+## 1.0.0 - 09/01/14
+* Enable numbers
+
 ## 0.3.0 - 08/29/14
 * Enable uppercase only words
 
