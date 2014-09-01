@@ -3,7 +3,7 @@
 
 **Harness the power of ALT as you battle the mighty camelCase and treacherous snake_case.**
 
-Holding down `alt` will allow you to move your cursor similarly to `ctrl`, but you will stop at subwords.  Shift will allow you to highlight as you move left and right.
+Holding down `alt` will move your cursor just like `ctrl`, but you will stop at subwords.  Shift will allow you to highlight as you move left and right.  Multiple cursors/selections are supported.  If I missed something, issues and pull requests are welcome.
 
 ### Instructions
 
