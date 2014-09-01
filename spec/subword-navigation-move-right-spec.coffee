@@ -224,3 +224,32 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
+
+    describe "on ' 88.1 ", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToBeginningOfLine()
+        editorView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+      it "when cursor is at start of word", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToBeginningOfLine()
+        editor.moveCursorRight()
+        editorView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 3
+
+      it "when cursor is at start of second subword", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...4]
+        editorView.trigger 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 5

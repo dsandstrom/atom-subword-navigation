@@ -44,6 +44,7 @@ class SubwordNavigation
     segments = ["^[\t ]*$"]
     segments.push("[A-Z]?[a-z]+")
     segments.push("[A-Z]+(?![a-z])")
+    segments.push("\\d+")
     if options.backwards
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
     else
@@ -51,16 +52,12 @@ class SubwordNavigation
     new RegExp(segments.join("|"), "g")
 
   cursors: ->
-    if @editor
-      @editor.getCursors()
-    else
-      []
+    # TODO: add tests
+    if @editor then @editor.getCursors() else []
 
   selections: ->
-    if @editor
-      @editor.getSelections()
-    else
-      []
+    # TODO: add tests
+    if @editor then @editor.getSelections() else []
 
   cursorOptions: (options={}) ->
     {wordRegex: @subwordRegExp(options)}

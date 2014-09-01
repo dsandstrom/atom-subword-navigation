@@ -301,3 +301,32 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
+
+    describe "on ' 88.1 ", ->
+      it "when cursor is at the end", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        editorView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 5
+
+      it "when cursor is at end of word", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorToEndOfLine()
+        editor.moveCursorLeft()
+        editorView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is at end of subword", ->
+        editor.insertText(" 88.1 \n")
+        editor.moveCursorUp 1
+        editor.moveCursorRight() for n in [0...3]
+        editorView.trigger 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
