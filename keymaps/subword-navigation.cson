@@ -1,5 +1,11 @@
-'.editor':
+'.platform-linux .editor, .platform-win32 .editor':
   'alt-right': 'subword-navigation:move-right'
   'alt-left': 'subword-navigation:move-left'
   'alt-shift-right': 'subword-navigation:select-right'
   'alt-shift-left': 'subword-navigation:select-left'
+
+'.platform-darwin .editor':
+  'ctrl-alt-right': 'subword-navigation:move-right'
+  'ctrl-alt-left': 'subword-navigation:move-left'
+  'ctrl-shift-right': 'subword-navigation:select-right'
+  'ctrl-shift-left': 'subword-navigation:select-left'
