@@ -1,3 +1,6 @@
+## 1.1.0 - 09/03/14
+* Add OS specific keymaps (Mac is weird)
+
 ## 1.0.0 - 09/01/14
 * Enable numbers
 
