@@ -3,14 +3,20 @@
 
 **Harness the power of ALT as you battle the mighty camelCase and treacherous snake_case.**
 
-Holding down `alt` will move your cursor just like `ctrl`, but you will stop at subwords.  Shift will allow you to highlight as you move left and right.  Multiple cursors/selections are supported.  If I missed something, issues and pull requests are welcome.
+This package allows you to move the cursor(s) to beginning/end of words, but also it stops at subwords (camelCase and snake_case).  Holding `shift` will highlight as you move left and right.  Multiple cursors/selections are supported.  If I missed something, issues and pull requests are welcome.
 
 ### Instructions
 
-|             | Left           | Right           |
+|  Linux/Win  |            |            |
 |-------------|----------------|-----------------|
-| Move around | alt-left       | alt-right       |
-| Highlight   | alt-shift-left | alt-shift-right |
+| Move around | `alt-left`       | `alt-right `   |
+| Highlight   | `alt-shift-left` | `alt-shift-right` |
+
+|     Mac     |            |            |
+|-------------|----------------|-----------------|
+| Move around | `ctrl-alt-left`  | `alt-right`       |
+| Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
+
 
 
 ### Commands

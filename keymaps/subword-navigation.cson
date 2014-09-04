@@ -7,5 +7,5 @@
 '.platform-darwin .editor':
   'ctrl-alt-right': 'subword-navigation:move-right'
   'ctrl-alt-left': 'subword-navigation:move-left'
-  'ctrl-shift-right': 'subword-navigation:select-right'
-  'ctrl-shift-left': 'subword-navigation:select-left'
+  'ctrl-alt-shift-right': 'subword-navigation:select-right'
+  'ctrl-alt-shift-left': 'subword-navigation:select-left'
