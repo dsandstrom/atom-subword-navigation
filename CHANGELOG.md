@@ -1,3 +1,6 @@
+## 1.2.1 - 09/27/14
+* Fix package activation events so travis passes
+
 ## 1.2.0 - 09/27/14
 * Add delete-left and delete-right
 
