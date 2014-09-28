@@ -40,12 +40,11 @@ class SubwordNavigation
           cursor.setBufferPosition(position)
 
   deleteToNextSubwordBoundary: ->
+    @editor.buffer.beginTransaction()
+    @selectToNextSubwordBoundary()
     for selection in @selections()
-      cursor = selection.cursor
-      position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
-      if cursor and position
-        selection.modifySelection ->
-          cursor.setBufferPosition(position)
+      selection.deleteSelectedText()
+    @editor.buffer.commitTransaction()
 
   deleteToPreviousSubwordBoundary: ->
     @editor.buffer.beginTransaction()
