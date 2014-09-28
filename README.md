@@ -7,7 +7,7 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 
 - Holding `shift` will highlight as you move left and right.
 
-- Along with highlight, you can delete to the previous/next subword.  However, I did not assign keybindings to them, they are BYOK to prevent conflicts.  Command names are at the bottom of the page.
+- Along with highlight, you can delete to the previous/next subword.  However, I did not assign keybindings to them; they are BYOK to prevent conflicts.  Command names are at the bottom of the page.
 
 - Issues and pull requests are welcome.
 
