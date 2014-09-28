@@ -39,6 +39,21 @@ class SubwordNavigation
         selection.modifySelection ->
           cursor.setBufferPosition(position)
 
+  deleteToNextSubwordBoundary: ->
+    for selection in @selections()
+      cursor = selection.cursor
+      position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+      if cursor and position
+        selection.modifySelection ->
+          cursor.setBufferPosition(position)
+
+  deleteToPreviousSubwordBoundary: ->
+    @editor.buffer.beginTransaction()
+    @selectToPreviousSubwordBoundary()
+    for selection in @selections()
+      selection.deleteSelectedText()
+    @editor.buffer.commitTransaction()
+
   subwordRegExp: (options={}) ->
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     segments = ["^[\t ]*$"]
@@ -52,11 +67,9 @@ class SubwordNavigation
     new RegExp(segments.join("|"), "g")
 
   cursors: ->
-    # TODO: add tests
     if @editor then @editor.getCursors() else []
 
   selections: ->
-    # TODO: add tests
     if @editor then @editor.getSelections() else []
 
   cursorOptions: (options={}) ->

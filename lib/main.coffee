@@ -1,4 +1,8 @@
 SubwordNavigation = require './subword-navigation'
+# TODO: fix deprecations
+# moveCursorUp -> moveUp
+# moveCursorRight -> moveRight
+# moveCursorToEndOfLine -> moveToEndOfLine
 
 module.exports =
   activate: (state) ->
@@ -13,5 +17,9 @@ module.exports =
         subwordNavigation.selectToNextSubwordBoundary()
       editorView.command "subword-navigation:select-left", ->
         subwordNavigation.selectToPreviousSubwordBoundary()
+      editorView.command "subword-navigation:delete-right", ->
+        subwordNavigation.deleteToNextSubwordBoundary()
+      editorView.command "subword-navigation:delete-left", ->
+        subwordNavigation.deleteToPreviousSubwordBoundary()
 
   deactivate: ->
