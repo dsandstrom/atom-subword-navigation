@@ -3,9 +3,7 @@
   "main": "./lib/main",
   "version": "1.2.0",
   "description": "Navigate camelCase and snake_case words",
-  "activationEvents": [
-    ""
-  ],
+  "activationEvents": [],
   "repository": "https://github.com/dsandstrom/atom-subword-navigation",
   "license": "MIT",
   "engines": {
