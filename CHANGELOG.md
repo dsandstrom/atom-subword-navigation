@@ -1,3 +1,6 @@
+## 1.2.0 - 09/27/14
+* Add delete-left and delete-right
+
 ## 1.1.0 - 09/03/14
 * Add OS specific keymaps (Mac is weird)
 
