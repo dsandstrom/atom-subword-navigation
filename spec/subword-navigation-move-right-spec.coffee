@@ -33,7 +33,7 @@ describe 'SubwordNavigation', ->
 
     it "on blank line, before '\n'", ->
       editor.insertText("\n")
-      editor.moveCursorUp 1
+      editor.moveUp 1
       editorView.trigger 'subword-navigation:move-right'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 1
@@ -42,8 +42,8 @@ describe 'SubwordNavigation', ->
     describe "on '.word.'", ->
       it "when cursor is in the middle", ->
         editor.insertText(".word.\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...2]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...2]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -52,7 +52,7 @@ describe 'SubwordNavigation', ->
     describe "on 'getPreviousWord '", ->
       it "when cursor is at the beginning", ->
         editor.insertText("getPreviousWord \n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -60,8 +60,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at end of first subword", ->
         editor.insertText("getPreviousWord \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...3]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...3]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -69,8 +69,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at end of second subword", ->
         editor.insertText("getPreviousWord \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...11]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...11]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -79,7 +79,7 @@ describe 'SubwordNavigation', ->
     describe "on 'sub_word '", ->
       it "when cursor is at the beginning", ->
         editor.insertText("sub_word \n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -87,8 +87,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at end of first subword", ->
         editor.insertText("sub_word \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...3]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...3]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -96,8 +96,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at the beginnig of second subword", ->
         editor.insertText("sub_word \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...4]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...4]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -106,7 +106,7 @@ describe 'SubwordNavigation', ->
     describe "on ', =>'", ->
       it "when cursor is at the beginning", ->
         editor.insertText(", =>\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -114,8 +114,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at end of a comma", ->
         editor.insertText(", =>\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight()
+        editor.moveUp 1
+        editor.moveRight()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -123,8 +123,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at new line", ->
         editor.insertText(", =>\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...4]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...4]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 1
@@ -133,7 +133,7 @@ describe 'SubwordNavigation', ->
     describe "on '  @var'", ->
       it "when cursor is at the beginning", ->
         editor.insertText("  @var\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -142,7 +142,7 @@ describe 'SubwordNavigation', ->
     describe "on '()'", ->
       it "when cursor is at the beginning", ->
         editor.insertText("()\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -151,7 +151,7 @@ describe 'SubwordNavigation', ->
     describe "on ' - b'", ->
       it "when cursor is at the beginning", ->
         editor.insertText(" - b\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -159,8 +159,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at end of -", ->
         editor.insertText(" - b\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...2]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...2]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -169,7 +169,7 @@ describe 'SubwordNavigation', ->
     describe "when 2 cursors", ->
       it "when cursor is at the beginning", ->
         editor.insertText("cursorOptions\ncursorOptions\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editor.addCursorAtBufferPosition([0,0])
         editorView.trigger 'subword-navigation:move-right'
         cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
@@ -181,7 +181,7 @@ describe 'SubwordNavigation', ->
     describe "on 'ALPHA", ->
       it "when cursor is at the beginning", ->
         editor.insertText(" ALPHA\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -189,8 +189,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at beginning of word", ->
         editor.insertText(" ALPHA\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight()
+        editor.moveUp 1
+        editor.moveRight()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -199,8 +199,8 @@ describe 'SubwordNavigation', ->
     describe "on 'AAADF ", ->
       it "when cursor is at beginning of word", ->
         editor.insertText(" AAADF \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight()
+        editor.moveUp 1
+        editor.moveRight()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -209,7 +209,7 @@ describe 'SubwordNavigation', ->
     describe "on 'ALPhA", ->
       it "when cursor is at the beginning", ->
         editor.insertText("ALPhA\n")
-        editor.moveCursorUp 1
+        editor.moveUp 1
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -217,9 +217,9 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at beginning of word", ->
         editor.insertText("ALPhA\n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight()
-        editor.moveCursorRight()
+        editor.moveUp 1
+        editor.moveRight()
+        editor.moveRight()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -228,8 +228,8 @@ describe 'SubwordNavigation', ->
     describe "on ' 88.1 ", ->
       it "when cursor is at the beginning", ->
         editor.insertText(" 88.1 \n")
-        editor.moveCursorUp 1
-        editor.moveCursorToBeginningOfLine()
+        editor.moveUp 1
+        editor.moveToBeginningOfLine()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -237,9 +237,9 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at start of word", ->
         editor.insertText(" 88.1 \n")
-        editor.moveCursorUp 1
-        editor.moveCursorToBeginningOfLine()
-        editor.moveCursorRight()
+        editor.moveUp 1
+        editor.moveToBeginningOfLine()
+        editor.moveRight()
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
@@ -247,8 +247,8 @@ describe 'SubwordNavigation', ->
 
       it "when cursor is at start of second subword", ->
         editor.insertText(" 88.1 \n")
-        editor.moveCursorUp 1
-        editor.moveCursorRight() for n in [0...4]
+        editor.moveUp 1
+        editor.moveRight() for n in [0...4]
         editorView.trigger 'subword-navigation:move-right'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0

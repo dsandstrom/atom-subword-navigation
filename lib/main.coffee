@@ -1,8 +1,4 @@
 SubwordNavigation = require './subword-navigation'
-# TODO: fix deprecations
-# moveCursorUp -> moveUp
-# moveCursorRight -> moveRight
-# moveCursorToEndOfLine -> moveToEndOfLine
 
 module.exports =
   activate: (state) ->
