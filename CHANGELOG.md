@@ -1,3 +1,6 @@
+## 1.3.0 - 11/9/14
+* Fix deprecations
+
 ## 1.2.1 - 09/27/14
 * Fix package activation events so travis passes
 
