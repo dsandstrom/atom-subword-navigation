@@ -4,14 +4,27 @@
   "version": "1.2.1",
   "description": "Navigate camelCase and snake_case words",
   "activationEvents": [],
-  "repository": "https://github.com/dsandstrom/atom-subword-navigation",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dsandstrom/atom-subword-navigation"
+  },
+  "bugs": {
+    "url": "https://github.com/dsandstrom/atom-subword-navigation/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/dsandstrom/atom-ruby-block-converter/raw/master/LICENSE.md"
+    }
+  ],
   "engines": {
     "atom": ">0.125.0"
   },
-  "dependencies": {
+  "devDependencies": {
     "fs-plus": "2.x",
-    "temp": "~0.6.0",
+    "temp": "~0.6.0"
+  },
+  "dependencies": {
     "underscore-plus": "1.x"
   }
 }

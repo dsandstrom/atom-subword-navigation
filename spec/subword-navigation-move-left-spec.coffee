@@ -11,7 +11,7 @@ describe 'SubwordNavigation', ->
   beforeEach ->
     atom.workspaceView = new WorkspaceView()
     directory = temp.mkdirSync()
-    atom.project.setPath(directory)
+    atom.project.setPaths(directory)
     filePath = path.join(directory, 'example.rb')
 
     waitsForPromise ->
