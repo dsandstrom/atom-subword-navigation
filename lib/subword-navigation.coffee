@@ -9,7 +9,7 @@ class SubwordNavigation
 
   moveToNextSubwordBoundary: ->
     for cursor in @cursors()
-      if position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+      if position = cursor.getNextWordBoundaryBufferPosition(@cursorOptions())
         cursor.setBufferPosition(position)
 
   moveToPreviousSubwordBoundary: ->
@@ -23,7 +23,7 @@ class SubwordNavigation
   selectToNextSubwordBoundary: ->
     for selection in @selections()
       cursor = selection.cursor
-      position = cursor.getMoveNextWordBoundaryBufferPosition(@cursorOptions())
+      position = cursor.getNextWordBoundaryBufferPosition(@cursorOptions())
       if cursor and position
         selection.modifySelection ->
           cursor.setBufferPosition(position)
