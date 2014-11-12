@@ -1,3 +1,7 @@
+## 2.0.0 - 11/12/14
+* Fix deprecation (getMoveNextWordBoundary)
+* Requires Atom v0.145.0
+
 ## 1.3.0 - 11/9/14
 * Fix deprecations
 
