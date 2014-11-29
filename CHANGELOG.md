@@ -1,3 +1,6 @@
+## 2.1.0 - 11/28/14
+* Replace deprecated transaction functions
+
 ## 2.0.0 - 11/12/14
 * Fix deprecation (getMoveNextWordBoundary)
 * Requires Atom v0.145.0

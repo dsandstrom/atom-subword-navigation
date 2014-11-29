@@ -40,18 +40,16 @@ class SubwordNavigation
           cursor.setBufferPosition(position)
 
   deleteToNextSubwordBoundary: ->
-    @editor.buffer.beginTransaction()
-    @selectToNextSubwordBoundary()
-    for selection in @selections()
-      selection.deleteSelectedText()
-    @editor.buffer.commitTransaction()
+    @editor.transact =>
+      @selectToNextSubwordBoundary()
+      for selection in @selections()
+        selection.deleteSelectedText()
 
   deleteToPreviousSubwordBoundary: ->
-    @editor.buffer.beginTransaction()
-    @selectToPreviousSubwordBoundary()
-    for selection in @selections()
-      selection.deleteSelectedText()
-    @editor.buffer.commitTransaction()
+    @editor.transact =>
+      @selectToPreviousSubwordBoundary()
+      for selection in @selections()
+        selection.deleteSelectedText()
 
   subwordRegExp: (options={}) ->
     nonWordCharacters = atom.config.get('editor.nonWordCharacters')
