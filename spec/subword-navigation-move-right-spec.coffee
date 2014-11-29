@@ -1,13 +1,14 @@
 fs = require 'fs-plus'
 path = require 'path'
 temp = require 'temp'
-{WorkspaceView} = require 'atom'
+{Workspace} = require 'atom'
 
 describe 'SubwordNavigation', ->
   [editorView, editor, promise] = []
 
   beforeEach ->
-    atom.workspaceView = new WorkspaceView()
+    atom.workspace = new Workspace
+    atom.workspaceView = atom.views.getView(atom.workspace).__spacePenView
     directory = temp.mkdirSync()
     atom.project.setPaths(directory)
     filePath = path.join(directory, 'example.rb')
