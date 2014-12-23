@@ -8,6 +8,8 @@
         { 'label': 'Move Left', 'command': 'subword-navigation:move-left' }
         { 'label': 'Select Right', 'command': 'subword-navigation:select-right' }
         { 'label': 'Select Left', 'command': 'subword-navigation:select-left' }
+        { 'label': 'Delete Left', 'command': 'subword-navigation:delete-left' }
+        { 'label': 'Delete Right', 'command': 'subword-navigation:delete-right' }
       ]
     ]
   }

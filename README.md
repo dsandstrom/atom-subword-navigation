@@ -17,13 +17,13 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 |-------------|----------------|-----------------|
 | Move around | `alt-left`       | `alt-right `   |
 | Highlight   | `alt-shift-left` | `alt-shift-right` |
-| Delete      | *unset*          | *unset* |
+| Delete      | `alt-backspace` | `alt-delete` |
 
 |     Mac     |            |            |
 |-------------|----------------|-----------------|
 | Move around | `ctrl-alt-left`  | `alt-right`       |
 | Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
-| Delete      | *unset* | *unset* |
+| Delete      | `ctrl-alt-backspace` | `ctrl-alt-delete` |
 
 
 ### Dependencies
