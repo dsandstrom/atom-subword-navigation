@@ -3,9 +3,12 @@ _ = require 'underscore-plus'
 
 module.exports =
 class SubwordNavigation
-  constructor: (@editor) ->
+  constructor: ->
 
   destroy: ->
+
+  editor: ->
+    atom.workspace.getActiveTextEditor()
 
   moveToNextSubwordBoundary: ->
     for cursor in @cursors()
@@ -40,13 +43,13 @@ class SubwordNavigation
           cursor.setBufferPosition(position)
 
   deleteToNextSubwordBoundary: ->
-    @editor.transact =>
+    @editor().transact =>
       @selectToNextSubwordBoundary()
       for selection in @selections()
         selection.deleteSelectedText()
 
   deleteToPreviousSubwordBoundary: ->
-    @editor.transact =>
+    @editor().transact =>
       @selectToPreviousSubwordBoundary()
       for selection in @selections()
         selection.deleteSelectedText()
@@ -64,10 +67,10 @@ class SubwordNavigation
     new RegExp(segments.join("|"), "g")
 
   cursors: ->
-    if @editor then @editor.getCursors() else []
+    if @editor() then @editor().getCursors() else []
 
   selections: ->
-    if @editor then @editor.getSelections() else []
+    if @editor() then @editor().getSelections() else []
 
   cursorOptions: (options={}) ->
     {wordRegex: @subwordRegExp(options)}
