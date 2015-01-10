@@ -18,7 +18,7 @@
     }
   ],
   "engines": {
-    "atom": ">= 0.145.0"
+    "atom": ">= 0.168.0"
   },
   "devDependencies": {
     "fs-plus": "2.x",
