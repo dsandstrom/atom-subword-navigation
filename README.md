@@ -27,7 +27,7 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 
 
 ### Dependencies
-Requires Atom v0.145 and up
+Requires Atom v0.168.0 and up
 
 
 ### Commands
