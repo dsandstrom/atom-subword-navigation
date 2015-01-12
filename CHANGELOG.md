@@ -1,3 +1,6 @@
+## 2.3.0 - 1/11/15
+* Fix deprecations
+
 ## 2.2.1 - 1/10/15
 * Update required Atom version
 

@@ -1,14 +1,12 @@
 fs = require 'fs-plus'
 path = require 'path'
 temp = require 'temp'
-{Workspace} = require 'atom'
 
 describe 'SubwordNavigation', ->
-  [editorView, editor, promise] = []
+  [workspaceElement, editorView, editor, activationPromise] = []
 
   beforeEach ->
-    atom.workspace = new Workspace
-    atom.workspaceView = atom.views.getView(atom.workspace).__spacePenView
+    workspaceElement = atom.views.getView(atom.workspace).__spacePenView
     directory = temp.mkdirSync()
     atom.project.setPaths(directory)
     filePath = path.join(directory, 'example.rb')
@@ -17,13 +15,13 @@ describe 'SubwordNavigation', ->
       atom.workspace.open(filePath)
 
     runs ->
-      atom.workspaceView.attachToDom()
-      editorView = atom.workspaceView.getActiveView()
+      workspaceElement.attachToDom()
+      editorView = workspaceElement.getActiveView()
       editor = editorView.getEditor()
-      promise = atom.packages.activatePackage('subword-navigation')
+      activationPromise = atom.packages.activatePackage('subword-navigation')
 
     waitsForPromise ->
-      promise
+      activationPromise
 
   describe 'delete-left', ->
     it 'does not change an empty file', ->
