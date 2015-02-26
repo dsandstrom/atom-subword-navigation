@@ -1,10 +1,10 @@
-'.platform-linux .atom-text-editor, .platform-win32 .atom-text-editor':
+'.platform-linux atom-text-editor, .platform-win32 atom-text-editor':
   'alt-right': 'subword-navigation:move-right'
   'alt-left': 'subword-navigation:move-left'
   'alt-shift-right': 'subword-navigation:select-right'
   'alt-shift-left': 'subword-navigation:select-left'
 
-'.platform-darwin .atom-text-editor':
+'.platform-darwin atom-text-editor':
   'ctrl-alt-right': 'subword-navigation:move-right'
   'ctrl-alt-left': 'subword-navigation:move-left'
   'ctrl-alt-shift-right': 'subword-navigation:select-right'
