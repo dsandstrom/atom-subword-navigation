@@ -1,4 +1,4 @@
-## 2.3.0 - 2015-2-26
+## 2.4.0 - 2015-2-26
 * Fix deprecated editor class in keymaps
 
 ## 2.3.0 - 1/11/15
