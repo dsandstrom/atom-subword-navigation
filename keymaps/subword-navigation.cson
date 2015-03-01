@@ -3,9 +3,13 @@
   'alt-left': 'subword-navigation:move-left'
   'alt-shift-right': 'subword-navigation:select-right'
   'alt-shift-left': 'subword-navigation:select-left'
+  'alt-delete': 'subword-navigation:delete-right'
+  'alt-backspace': 'subword-navigation:delete-left'
 
 '.platform-darwin atom-text-editor':
   'ctrl-alt-right': 'subword-navigation:move-right'
   'ctrl-alt-left': 'subword-navigation:move-left'
   'ctrl-alt-shift-right': 'subword-navigation:select-right'
   'ctrl-alt-shift-left': 'subword-navigation:select-left'
+  'ctrl-alt-delete': 'subword-navigation:delete-right'
+  'alt-backspace': 'subword-navigation:delete-left'
