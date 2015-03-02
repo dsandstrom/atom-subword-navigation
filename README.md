@@ -27,9 +27,9 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 
 | Vim-Mode    | Left  | Right |
 |:------------|:------|:------|
-| Move around | `q`   | `Q`   |
-| Highlight   | `v q` | `v Q` |
-| Delete      | `d q` | `d Q` |
+| Move around | `Q`   | `q`   |
+| Highlight   | `v Q` | `v q` |
+| Delete      | `d Q` | `d q` |
 
 
 ### Dependencies
