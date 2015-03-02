@@ -6,24 +6,23 @@
 This package allows you to move the cursor(s) to beginning and end of words, but also it stops at subwords (camelCase and snake_case).
 
 - Holding `shift` will highlight as you move left and right.
-
-- Along with highlight, you can delete to the previous/next subword.  However, I did not assign keybindings to them; they are BYOK to prevent conflicts.  Command names are at the bottom of the page.
-
+- Along with highlight, you can delete to the previous/next subword.
 - Issues and pull requests are welcome.
+
 
 ### Instructions
 
-|  Linux/Win  |            |            |
-|-------------|----------------|-----------------|
-| Move around | `alt-left`       | `alt-right `   |
+| Linux/Win   | Left             | Right             |
+|:------------|:-----------------|:------------------|
+| Move around | `alt-left`       | `alt-right `      |
 | Highlight   | `alt-shift-left` | `alt-shift-right` |
-| Delete      | *unset*          | *unset* |
+| Delete      | `alt-backspace`  | `alt-delete `     |
 
-|     Mac     |            |            |
-|-------------|----------------|-----------------|
-| Move around | `ctrl-alt-left`  | `alt-right`       |
+| Mac         | Left                  | Right                  |
+|:------------|:----------------------|:-----------------------|
+| Move around | `ctrl-alt-left`       | `alt-right`            |
 | Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
-| Delete      | *unset* | *unset* |
+| Delete      | `ctrl-alt-backspace`  | `ctrl-alt-delete `     |
 
 
 ### Dependencies
