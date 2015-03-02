@@ -1,5 +1,5 @@
 ## 2.5.0 - 2015-3-1
-* Add delete keymaps
+* Add delete/vim-mode keymaps
 
 ## 2.4.0 - 2015-2-26
 * Fix deprecated editor class in keymaps

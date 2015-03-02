@@ -7,6 +7,7 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 
 - Holding `shift` will highlight as you move left and right.
 - Along with highlight, you can delete to the previous/next subword.
+- If you have [vim-mode](https://atom.io/packages/vim-mode) enabled, `q` will be there to assist.  As of now, commands can't be called multiple times (eg. v2q doesn't work).
 - Issues and pull requests are welcome.
 
 
@@ -23,6 +24,12 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 | Move around | `ctrl-alt-left`       | `alt-right`            |
 | Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
 | Delete      | `ctrl-alt-backspace`  | `ctrl-alt-delete `     |
+
+| Vim-Mode    | Left  | Right |
+|:------------|:------|:------|
+| Move around | `q`   | `Q`   |
+| Highlight   | `v q` | `v Q` |
+| Delete      | `d q` | `d Q` |
 
 
 ### Dependencies
