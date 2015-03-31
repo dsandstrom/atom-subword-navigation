@@ -17,6 +17,9 @@
       "url": "https://github.com/dsandstrom/atom-ruby-block-converter/raw/master/LICENSE.md"
     }
   ],
+  "keywords": [
+    "navigation"
+  ],
   "engines": {
     "atom": ">= 0.168.0"
   },
