@@ -104,20 +104,9 @@ describe 'SubwordNavigation', ->
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
         expect(selectionRange.end.row).toBe 0
-        expect(selectionRange.end.column).toBe 3
-
-      it "when cursor is at end of first subword", ->
-        editor.insertText("sub_word \n")
-        editor.moveUp 1
-        editor.moveRight() for n in [0...3]
-        editorView.trigger 'subword-navigation:select-right'
-        selectionRange = editor.getLastSelection().getBufferRange()
-        expect(selectionRange.start.row).toBe 0
-        expect(selectionRange.start.column).toBe 3
-        expect(selectionRange.end.row).toBe 0
         expect(selectionRange.end.column).toBe 4
 
-      it "when cursor is at the beginnig of second subword", ->
+      it "when cursor is at end of first subword", ->
         editor.insertText("sub_word \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]

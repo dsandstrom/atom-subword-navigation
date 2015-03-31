@@ -109,20 +109,10 @@ describe 'SubwordNavigation', ->
         editorView.trigger 'subword-navigation:delete-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 5
-        expect(editor.getText()).toBe " sub_\n"
+        expect(cursorPosition.column).toBe 4
+        expect(editor.getText()).toBe " sub\n"
 
       it "when cursor is at beginning of second subword", ->
-        editor.insertText(" sub_word\n")
-        editor.moveUp 1
-        editor.moveRight() for n in [0...5]
-        editorView.trigger 'subword-navigation:delete-left'
-        cursorPosition = editor.getCursorBufferPosition()
-        expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 4
-        expect(editor.getText()).toBe " subword\n"
-
-      it "when cursor is at the beginnig of second subword", ->
         editor.insertText(" sub_word\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]

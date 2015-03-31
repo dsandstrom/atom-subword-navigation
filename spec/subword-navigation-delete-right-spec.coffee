@@ -98,19 +98,9 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
-        expect(editor.getText()).toBe "_word \n"
+        expect(editor.getText()).toBe "word \n"
 
       it "when cursor is at end of first subword", ->
-        editor.insertText("sub_word \n")
-        editor.moveUp 1
-        editor.moveRight() for n in [0...3]
-        editorView.trigger 'subword-navigation:delete-right'
-        cursorPosition = editor.getCursorBufferPosition()
-        expect(cursorPosition.row).toBe 0
-        expect(cursorPosition.column).toBe 3
-        expect(editor.getText()).toBe "subword \n"
-
-      it "when cursor is at the beginnig of second subword", ->
         editor.insertText("sub_word \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
