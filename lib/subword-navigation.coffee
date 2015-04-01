@@ -17,7 +17,10 @@ class SubwordNavigation
 
   moveToPreviousSubwordBoundary: ->
     for cursor in @cursors()
-      if position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
+      position = cursor.getPreviousWordBoundaryBufferPosition(
+        @cursorOptions(backwards: true)
+        )
+      if position
         # FIXME: hack to fix going left on first line
         if position.isEqual(cursor.getBufferPosition())
           position = new Point(position.row, 0)
@@ -34,7 +37,9 @@ class SubwordNavigation
   selectToPreviousSubwordBoundary: ->
     for selection in @selections()
       cursor = selection.cursor
-      position = cursor.getPreviousWordBoundaryBufferPosition(@cursorOptions(backwards: true))
+      position = cursor.getPreviousWordBoundaryBufferPosition(
+        @cursorOptions(backwards: true)
+      )
       if cursor and position
         # FIXME: hack to fix going left on first line
         if position.isEqual(cursor.getBufferPosition())
