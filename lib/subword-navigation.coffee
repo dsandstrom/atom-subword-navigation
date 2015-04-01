@@ -19,7 +19,7 @@ class SubwordNavigation
     for cursor in @cursors()
       position = cursor.getPreviousWordBoundaryBufferPosition(
         @cursorOptions(backwards: true)
-        )
+      )
       if position
         # FIXME: hack to fix going left on first line
         if position.isEqual(cursor.getBufferPosition())
