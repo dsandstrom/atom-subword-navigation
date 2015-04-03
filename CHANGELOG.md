@@ -1,3 +1,6 @@
+## 2.6.0 - 2015-4-3
+* Stop cursor after underscore
+
 ## 2.5.0 - 2015-3-1
 * Add delete/vim-mode keymaps
 
