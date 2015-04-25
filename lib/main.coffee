@@ -1,10 +1,13 @@
+{CompositeDisposable} = require 'atom'
 SubwordNavigation = require './subword-navigation'
 
 module.exports =
+  subscriptions: null
+
   activate: (state) ->
     subwordNavigation = new SubwordNavigation()
-
-    atom.commands.add 'atom-workspace',
+    @subscriptions = new CompositeDisposable
+    @subscriptions.add atom.commands.add 'atom-workspace',
       "subword-navigation:move-right": ->
         subwordNavigation.moveToNextSubwordBoundary()
       "subword-navigation:move-left": ->
@@ -19,3 +22,4 @@ module.exports =
         subwordNavigation.deleteToPreviousSubwordBoundary()
 
   deactivate: ->
+    @subscriptions.dispose()
