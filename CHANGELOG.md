@@ -1,3 +1,6 @@
+## 2.7.0 - 2015-4-25
+* Use subscriber for command activation
+
 ## 2.6.0 - 2015-4-3
 * Stop cursor after underscore
 
