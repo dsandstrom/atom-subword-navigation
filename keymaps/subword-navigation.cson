@@ -7,10 +7,10 @@
   'alt-backspace': 'subword-navigation:delete-left'
 
 '.platform-darwin atom-text-editor':
-  'ctrl-alt-right': 'subword-navigation:move-right'
-  'ctrl-alt-left': 'subword-navigation:move-left'
-  'ctrl-alt-shift-right': 'subword-navigation:select-right'
-  'ctrl-alt-shift-left': 'subword-navigation:select-left'
+  'alt-right': 'subword-navigation:move-right'
+  'alt-left': 'subword-navigation:move-left'
+  'alt-shift-right': 'subword-navigation:select-right'
+  'alt-shift-left': 'subword-navigation:select-left'
   'ctrl-alt-delete': 'subword-navigation:delete-right'
   'ctrl-alt-backspace': 'subword-navigation:delete-left'
 
