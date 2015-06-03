@@ -8,26 +8,20 @@ describe 'SubwordNavigation', ->
   [workspaceElement, editorView, editor, activationPromise] = []
 
   beforeEach ->
-    workspaceElement = atom.views.getView(atom.workspace).__spacePenView
-    directory = temp.mkdirSync()
-    atom.project.setPaths(directory)
-    filePath = path.join(directory, 'example.rb')
+    workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
 
     waitsForPromise ->
-      atom.workspace.open(filePath)
-
-    runs ->
-      workspaceElement.attachToDom()
-      editorView = workspaceElement.getActiveView()
-      editor = editorView.getEditor()
-      activationPromise = atom.packages.activatePackage('subword-navigation')
+      atom.workspace.open('sample.rb').then (o) ->
+        editor = o
+        editorView = atom.views.getView(editor)
 
     waitsForPromise ->
-      activationPromise
+      atom.packages.activatePackage('subword-navigation')
 
   describe 'move-left', ->
     it 'does not change an empty file', ->
-      editorView.trigger 'subword-navigation:move-left'
+      atom.commands.dispatch editorView, 'subword-navigation:move-left'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 0
       expect(cursorPosition.column).toBe 0
@@ -35,7 +29,7 @@ describe 'SubwordNavigation', ->
     it "on blank line, before '\n'", ->
       editor.insertText("\n")
       editor.moveUp 1
-      editorView.trigger 'subword-navigation:move-left'
+      atom.commands.dispatch editorView, 'subword-navigation:move-left'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 0
       expect(cursorPosition.column).toBe 0
@@ -45,7 +39,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(".word.\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -55,7 +49,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 16
@@ -65,7 +59,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 12
@@ -74,7 +68,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...12]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -83,7 +77,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -93,7 +87,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" sub_word\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -102,7 +96,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" sub_word\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -112,7 +106,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -122,7 +116,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveRight()
         editor.moveRight()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
@@ -132,7 +126,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 3
@@ -141,7 +135,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -150,7 +144,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveRight()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
@@ -160,7 +154,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 3
@@ -169,7 +163,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 2
@@ -178,7 +172,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...1]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 1
         expect(cursorPosition.column).toBe 0
@@ -188,7 +182,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ()\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -197,7 +191,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("()\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
@@ -207,7 +201,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("a - \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -216,7 +210,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("a - \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -227,7 +221,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.addCursorAtBufferPosition([0,13])
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPositions = (c.getScreenPosition() for c in editor.getCursors())
         expect(cursorPositions[0].row).toBe 1
         expect(cursorPositions[0].column).toBe 6
@@ -238,7 +232,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -248,7 +242,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 6
@@ -258,7 +252,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
@@ -268,7 +262,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("ALPhA\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -277,7 +271,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("ALPhA\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 2
@@ -287,7 +281,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveRight()
         editor.moveRight()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 0
@@ -297,7 +291,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" 88.1 \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 5
@@ -307,7 +301,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 4
@@ -316,7 +310,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" 88.1 \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...3]
-        editorView.trigger 'subword-navigation:move-left'
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
