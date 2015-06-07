@@ -1,3 +1,6 @@
+## 2.8.0 - 2015-6-6
+* Remove deprecations from tests
+
 ## 2.7.0 - 2015-4-25
 * Use subscriber for command activation
 
