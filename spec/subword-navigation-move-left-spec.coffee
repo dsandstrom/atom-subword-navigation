@@ -1,7 +1,3 @@
-fs = require 'fs-plus'
-path = require 'path'
-temp = require 'temp'
-
 # TODO: add tests for folded text above
 
 describe 'SubwordNavigation', ->
