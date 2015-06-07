@@ -1,33 +1,23 @@
-fs = require 'fs-plus'
-path = require 'path'
-temp = require 'temp'
-
 # TODO: add tests for folded text above
 
 describe 'SubwordNavigation', ->
   [workspaceElement, editorView, editor, activationPromise] = []
 
   beforeEach ->
-    workspaceElement = atom.views.getView(atom.workspace).__spacePenView
-    directory = temp.mkdirSync()
-    atom.project.setPaths(directory)
-    filePath = path.join(directory, 'example.rb')
+    workspaceElement = atom.views.getView(atom.workspace)
+    jasmine.attachToDOM(workspaceElement)
 
     waitsForPromise ->
-      atom.workspace.open(filePath)
-
-    runs ->
-      workspaceElement.attachToDom()
-      editorView = workspaceElement.getActiveView()
-      editor = editorView.getEditor()
-      activationPromise = atom.packages.activatePackage('subword-navigation')
+      atom.workspace.open('sample.rb').then (o) ->
+        editor = o
+        editorView = atom.views.getView(editor)
 
     waitsForPromise ->
-      activationPromise
+      atom.packages.activatePackage('subword-navigation')
 
   describe 'select-left', ->
     it 'does not change an empty file', ->
-      editorView.trigger 'subword-navigation:select-left'
+      atom.commands.dispatch editorView, 'subword-navigation:select-left'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 0
       expect(cursorPosition.column).toBe 0
@@ -35,7 +25,7 @@ describe 'SubwordNavigation', ->
     it "on blank line, before '\n\n'", ->
       editor.insertText("\n\n")
       editor.moveUp 1
-      editorView.trigger 'subword-navigation:select-left'
+      atom.commands.dispatch editorView, 'subword-navigation:select-left'
       cursorPosition = editor.getCursorBufferPosition()
       expect(cursorPosition.row).toBe 0
       expect(cursorPosition.column).toBe 0
@@ -43,7 +33,7 @@ describe 'SubwordNavigation', ->
     it "on blank line, before '\n\n'", ->
       editor.insertText("\n\n")
       editor.moveUp 1
-      editorView.trigger 'subword-navigation:select-left'
+      atom.commands.dispatch editorView, 'subword-navigation:select-left'
       selectionRange = editor.getLastSelection().getBufferRange()
       expect(selectionRange.start.row).toBe 0
       expect(selectionRange.start.column).toBe 0
@@ -55,7 +45,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(".word.\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -67,7 +57,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 16
@@ -79,7 +69,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 12
@@ -90,7 +80,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...12]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -101,7 +91,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" getPreviousWord \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -113,7 +103,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" sub_word\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -124,7 +114,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" sub_word\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -136,7 +126,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(", =>\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -148,7 +138,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveRight()
         editor.moveRight()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -160,7 +150,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 3
@@ -171,7 +161,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -182,7 +172,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("  @var\n")
         editor.moveUp 1
         editor.moveRight()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -194,7 +184,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 1
         expect(selectionRange.start.column).toBe 3
@@ -205,7 +195,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 1
         expect(selectionRange.start.column).toBe 2
@@ -216,7 +206,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("\n  @var\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...1]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 1
         expect(selectionRange.start.column).toBe 0
@@ -228,7 +218,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ()\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -239,7 +229,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("()\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -251,7 +241,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("a - \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -262,7 +252,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("a - \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...2]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -275,7 +265,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.addCursorAtBufferPosition([0,13])
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRanges = editor.getSelections().map (s) -> s.getBufferRange()
         expect(selectionRanges[0].start.row).toBe 1
         expect(selectionRanges[0].start.column).toBe 6
@@ -291,7 +281,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -303,7 +293,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" ALPHA \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 6
@@ -315,7 +305,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
@@ -327,7 +317,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("ALPhA\n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -338,7 +328,7 @@ describe 'SubwordNavigation', ->
         editor.insertText("ALPhA\n")
         editor.moveUp 1
         editor.moveRight() for n in [0...4]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 2
@@ -350,7 +340,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveRight()
         editor.moveRight()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 0
@@ -362,7 +352,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" 88.1 \n")
         editor.moveUp 1
         editor.moveToEndOfLine()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 5
@@ -374,7 +364,7 @@ describe 'SubwordNavigation', ->
         editor.moveUp 1
         editor.moveToEndOfLine()
         editor.moveLeft()
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 4
@@ -385,7 +375,7 @@ describe 'SubwordNavigation', ->
         editor.insertText(" 88.1 \n")
         editor.moveUp 1
         editor.moveRight() for n in [0...3]
-        editorView.trigger 'subword-navigation:select-left'
+        atom.commands.dispatch editorView, 'subword-navigation:select-left'
         selectionRange = editor.getLastSelection().getBufferRange()
         expect(selectionRange.start.row).toBe 0
         expect(selectionRange.start.column).toBe 1
