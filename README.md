@@ -19,9 +19,9 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 | Highlight   | `alt-shift-left` | `alt-shift-right` |
 | Delete      | `alt-backspace`  | `alt-delete `     |
 
-| Mac         | Left                  | Right                  |
+| Mac*        | Left                  | Right                  |
 |:------------|:----------------------|:-----------------------|
-| Move around | `ctrl-alt-left`       | `alt-right`            |
+| Move around | `ctrl-alt-left`       | `ctrl-alt-right`            |
 | Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
 | Delete      | `ctrl-alt-backspace`  | `ctrl-alt-delete `     |
 
@@ -45,3 +45,6 @@ Requires Atom v0.168.0 and up
 'subword-navigation:delete-right'
 'subword-navigation:delete-left'
 ```
+
+### Notes
+\* The reason Mac keymaps use `ctrl-alt` instead of just `alt` is because Atom already has a keymap set for `alt-left` and `alt-right` (move-to-beginning-of-word and move-to-end-of-word).
