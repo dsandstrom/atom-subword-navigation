@@ -23,10 +23,7 @@
   "engines": {
     "atom": ">= 0.168.0"
   },
-  "devDependencies": {
-    "fs-plus": "2.x",
-    "temp": "~0.6.0"
-  },
+  "devDependencies": {},
   "dependencies": {
     "underscore-plus": "1.x"
   }
