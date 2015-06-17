@@ -330,3 +330,33 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 1
+
+    describe "on ' supåSandström '", ->
+      it "when cursor is at the end of the word", ->
+        editor.insertText(" supåSåndström\n")
+        editor.moveUp 1
+        editor.moveToEndOfLine()
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 5
+
+      it "when cursor is in between subwords", ->
+        editor.insertText(" supåSåndström \n")
+        editor.moveUp 1
+        editor.moveToBeginningOfLine()
+        editor.moveRight(5)
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 1
+
+    describe "on ' supaÖlsen '", ->
+      it "when cursor is at the end of the word", ->
+        editor.insertText(" supaÖlsen\n")
+        editor.moveUp 1
+        editor.moveToEndOfLine()
+        atom.commands.dispatch editorView, 'subword-navigation:move-left'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 5
