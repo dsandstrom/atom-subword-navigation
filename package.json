@@ -1,7 +1,7 @@
 {
   "name": "subword-navigation",
   "main": "./lib/main",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "Navigate camelCase and snake_case words",
   "activationCommands": {},
   "repository": {
