@@ -60,9 +60,9 @@ class SubwordNavigation
         selection.deleteSelectedText()
 
   subwordRegExp: (options={}) ->
+    nonWordCharacters = atom.config.get('editor.nonWordCharacters')
     lowercaseLetters = 'a-z\\u00DF-\\u00F6\\u00F8-\\u00FF'
     uppercaseLetters = 'A-Z\\u00C0-\\u00D6\\u00D8-\\u00DE'
-    nonWordCharacters = atom.config.get('editor.nonWordCharacters')
 
     segments = ["^[\t ]*$"]
     segments.push("[#{uppercaseLetters}]+(?![#{lowercaseLetters}])")
@@ -71,8 +71,9 @@ class SubwordNavigation
       segments.push("_?[#{uppercaseLetters}]?[#{lowercaseLetters}]+")
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
     else
-      segments.push("[A-Z]?[a-z]+_?")
+      segments.push("[#{uppercaseLetters}]?[#{lowercaseLetters}]+_?")
       segments.push("\\s*[#{_.escapeRegExp(nonWordCharacters)}]+")
+
     new RegExp(segments.join("|"), "g")
 
   cursors: ->

@@ -233,3 +233,48 @@ describe 'SubwordNavigation', ->
         cursorPosition = editor.getCursorBufferPosition()
         expect(cursorPosition.row).toBe 0
         expect(cursorPosition.column).toBe 5
+
+    describe "on 'tøåst '", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("tøåst \n")
+        editor.moveUp 1
+        atom.commands.dispatch editorView, 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 5
+
+    describe "on 'supåSandström '", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("supåSandström \n")
+        editor.moveUp 1
+        atom.commands.dispatch editorView, 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is inbetween subwords", ->
+        editor.insertText("supåSandström \n")
+        editor.moveUp 1
+        editor.moveRight(4)
+        atom.commands.dispatch editorView, 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 13
+
+    describe "on 'supaÖlsen '", ->
+      it "when cursor is at the beginning", ->
+        editor.insertText("supaÖlsen \n")
+        editor.moveUp 1
+        atom.commands.dispatch editorView, 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 4
+
+      it "when cursor is inbetween subwords", ->
+        editor.insertText("supaÖlsen \n")
+        editor.moveUp 1
+        editor.moveRight(4)
+        atom.commands.dispatch editorView, 'subword-navigation:move-right'
+        cursorPosition = editor.getCursorBufferPosition()
+        expect(cursorPosition.row).toBe 0
+        expect(cursorPosition.column).toBe 9
