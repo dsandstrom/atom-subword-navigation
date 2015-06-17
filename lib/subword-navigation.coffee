@@ -65,7 +65,7 @@ class SubwordNavigation
     segments.push("[A-Z]+(?![a-z])")
     segments.push("\\d+")
     if options.backwards
-      segments.push("_?[A-Z]?[a-z]+")
+      segments.push("_?[A-Z]?[a-z\\u00E0-\\u00F6\\u00F8-\\u00FF]+")
       segments.push("[#{_.escapeRegExp(nonWordCharacters)}]+\\s*")
     else
       segments.push("[A-Z]?[a-z]+_?")
