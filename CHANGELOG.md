@@ -1,3 +1,6 @@
+## 2.9.0 - 2015-6-17
+* Add support for non-English letters
+
 ## 2.8.0 - 2015-6-6
 * Remove deprecations from tests
 
