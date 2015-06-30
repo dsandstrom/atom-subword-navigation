@@ -1,4 +1,4 @@
-'.platform-linux atom-text-editor, .platform-win32 atom-text-editor':
+'.platform-linux atom-text-editor:not([mini]), .platform-win32 atom-text-editor:not([mini])':
   'alt-right': 'subword-navigation:move-right'
   'alt-left': 'subword-navigation:move-left'
   'alt-shift-right': 'subword-navigation:select-right'
@@ -6,7 +6,7 @@
   'alt-delete': 'subword-navigation:delete-right'
   'alt-backspace': 'subword-navigation:delete-left'
 
-'.platform-darwin atom-text-editor':
+'.platform-darwin atom-text-editor:not([mini])':
   'ctrl-alt-right': 'subword-navigation:move-right'
   'ctrl-alt-left': 'subword-navigation:move-left'
   'ctrl-alt-shift-right': 'subword-navigation:select-right'
@@ -14,7 +14,7 @@
   'ctrl-alt-delete': 'subword-navigation:delete-right'
   'ctrl-alt-backspace': 'subword-navigation:delete-left'
 
-'atom-text-editor.vim-mode.command-mode:not(.insert-mode)':
+'atom-text-editor:not([mini]).vim-mode.command-mode:not(.insert-mode)':
   'q': 'subword-navigation:move-right'
   'Q': 'subword-navigation:move-left'
   'v q': 'subword-navigation:select-right'
