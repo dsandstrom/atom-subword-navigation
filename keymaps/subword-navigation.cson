@@ -14,7 +14,7 @@
   'ctrl-alt-delete': 'subword-navigation:delete-right'
   'ctrl-alt-backspace': 'subword-navigation:delete-left'
 
-'atom-text-editor:not([mini]).vim-mode.command-mode:not(.insert-mode)':
+'atom-text-editor.vim-mode.command-mode:not(.insert-mode)':
   'q': 'subword-navigation:move-right'
   'Q': 'subword-navigation:move-left'
   'v q': 'subword-navigation:select-right'
