@@ -1,5 +1,7 @@
 # Subword Navigation
-###### An Atom Package - [Atom.io](https://atom.io/packages/subword-navigation) : [Github](https://github.com/dsandstrom/atom-subword-navigation) : [![Build Status](https://travis-ci.org/dsandstrom/atom-subword-navigation.svg?branch=master)](https://travis-ci.org/dsandstrom/atom-subword-navigation)
+###### An Atom Package - [Atom.io](https://atom.io/packages/subword-navigation) : [Github](https://github.com/dsandstrom/atom-subword-navigation)
+
+> This package is no longer maintained.  The functionality has been merged into Atom starting at v1.0.1. It will not activate and should be uninstalled.
 
 **Harness the power of ALT as you battle the mighty camelCase and treacherous snake_case.**
 
@@ -21,7 +23,7 @@ This package allows you to move the cursor(s) to beginning and end of words, but
 
 | Mac*        | Left                  | Right                  |
 |:------------|:----------------------|:-----------------------|
-| Move around | `ctrl-alt-left`       | `ctrl-alt-right`            |
+| Move around | `ctrl-alt-left`       | `ctrl-alt-right`       |
 | Highlight   | `ctrl-alt-shift-left` | `ctrl-alt-shift-right` |
 | Delete      | `ctrl-alt-backspace`  | `ctrl-alt-delete `     |
 

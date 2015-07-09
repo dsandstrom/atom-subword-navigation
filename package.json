@@ -21,7 +21,7 @@
     "navigation"
   ],
   "engines": {
-    "atom": ">= 0.168.0"
+    "atom": ">= 1.0.1"
   },
   "devDependencies": {},
   "dependencies": {

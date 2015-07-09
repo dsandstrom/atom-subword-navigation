@@ -1,23 +1,23 @@
-'.platform-linux atom-text-editor:not([mini]), .platform-win32 atom-text-editor:not([mini])':
-  'alt-right': 'subword-navigation:move-right'
-  'alt-left': 'subword-navigation:move-left'
-  'alt-shift-right': 'subword-navigation:select-right'
-  'alt-shift-left': 'subword-navigation:select-left'
-  'alt-delete': 'subword-navigation:delete-right'
-  'alt-backspace': 'subword-navigation:delete-left'
+# '.platform-linux atom-text-editor:not([mini]), .platform-win32 atom-text-editor:not([mini])':
+#   'alt-right': 'subword-navigation:move-right'
+#   'alt-left': 'subword-navigation:move-left'
+#   'alt-shift-right': 'subword-navigation:select-right'
+#   'alt-shift-left': 'subword-navigation:select-left'
+#   'alt-delete': 'subword-navigation:delete-right'
+#   'alt-backspace': 'subword-navigation:delete-left'
 
-'.platform-darwin atom-text-editor:not([mini])':
-  'ctrl-alt-right': 'subword-navigation:move-right'
-  'ctrl-alt-left': 'subword-navigation:move-left'
-  'ctrl-alt-shift-right': 'subword-navigation:select-right'
-  'ctrl-alt-shift-left': 'subword-navigation:select-left'
-  'ctrl-alt-delete': 'subword-navigation:delete-right'
-  'ctrl-alt-backspace': 'subword-navigation:delete-left'
+# '.platform-darwin atom-text-editor:not([mini])':
+#   'ctrl-alt-right': 'subword-navigation:move-right'
+#   'ctrl-alt-left': 'subword-navigation:move-left'
+#   'ctrl-alt-shift-right': 'subword-navigation:select-right'
+#   'ctrl-alt-shift-left': 'subword-navigation:select-left'
+#   'ctrl-alt-delete': 'subword-navigation:delete-right'
+#   'ctrl-alt-backspace': 'subword-navigation:delete-left'
 
 'atom-text-editor.vim-mode.command-mode:not(.insert-mode)':
-  'q': 'subword-navigation:move-right'
-  'Q': 'subword-navigation:move-left'
-  'v q': 'subword-navigation:select-right'
-  'v Q': 'subword-navigation:select-left'
-  'd q': 'subword-navigation:delete-right'
-  'd Q': 'subword-navigation:delete-left'
+  'q': 'editor:move-to-next-subword-boundary'
+  'Q': 'editor:move-to-previous-subword-boundary'
+  'v q': 'editor:select-to-next-subword-boundary'
+  'v Q': 'editor:select-to-previous-subword-boundary'
+  'd q': 'editor:delete-to-end-of-subword'
+  'd Q': 'editor:delete-to-beginning-of-subword'

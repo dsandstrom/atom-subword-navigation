@@ -1,3 +1,6 @@
+## 3.0.0 - 2015-7-8
+* Automatically disabled
+
 ## 2.9.0 - 2015-6-17
 * Add support for non-English letters
 
